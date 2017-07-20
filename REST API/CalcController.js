@@ -1,38 +1,38 @@
 'use strict';
 
-class CalcController {
-    constructor(router) {
-        this.router = router;
-        this.registerRoutes();
-    }
+var CalcController = {};
 
-    registerRoutes() {
-        this.router.post('/add', this.add.bind(this));
-        this.router.post('/divide', this.divide.bind(this));
-        this.router.post('/multiply', this.multipy.bind(this));
-        this.router.post('/compute', this.compute.bind(this));
-    }
+CalcController.add = function(num1, num2, operation) {
+    var result = operation == '+' ? num1 + num2 : num1 - num2;
+    return result;
+};
 
-    add(num1, num2) {
-        var result = num1 + num2;
-        return(result);
-    }
+CalcController.divide = function(num1, num2) {
+    var result = num1 / num2;
+    return result;
+};
 
-    divide(req, res) {
-        var result = req.params.num1 / req.params.num2;
-        res.send(result);
-    }
+CalcController.multiply = function(num1, num2) {
+    var result = num1 * num2;
+    return result;
+};
 
-    multipy(req, res) {
-        var result = req.params.num1 * req.params.num2;
-        res.send(result);
+CalcController.compute = function(num1, num2, operation) {
+    var result = num1;
+    switch(operation) {
+        case '+':
+        case '-':
+            result = CalcController.add(num1, num2, operation);
+            break;
+        case '/':
+            result = CalcController.divide(num1, num2);
+            break;
+        case '*':
+            result = CalcController.multiply(num1, num2);
+            break;
     }
+    return result;
+};
 
-    compute(req, res) {
-        var result = req.params.num1 + req.params.num2;
-        res.send(result);
-    }
-    
-}
 
 module.exports = CalcController;

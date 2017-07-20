@@ -2,6 +2,12 @@ var express = require('express');
 var CalcController = require('./CalcController');
 var app = express();
 
+var bodyParser = require('body-parser');
+app.use( bodyParser.json() );
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+
 // This responds with "Hello World" on the homepage
 app.get('/', function (req, res) {
     res.sendFile( __dirname + "/" + "index.html" );
@@ -9,33 +15,26 @@ app.get('/', function (req, res) {
 
 // This responds a POST request for the homepage
 app.post('/add', function (req, res) {
-    CalcController.add(req.params.num1, req.params.num2);
-    console.log("Got a POST request for the homepage");
-    res.send('Hello POST');
-})
-
-// This responds a POST request for the homepage
-app.post('/subtract', function (req, res) {
-    console.log("Got a POST request for the homepage");
-    res.send('Hello POST');
+    var result = CalcController.add(parseInt(req.body.num1), parseInt(req.body.num2), req.body.operation);
+    res.sendStatus(result);
 })
 
 // This responds a POST request for the homepage
 app.post('/multiply', function (req, res) {
-    console.log("Got a POST request for the homepage");
-    res.send('Hello POST');
+    var result = CalcController.multiply(parseInt(req.body.num1), parseInt(req.body.num2));
+    res.sendStatus(result);
 })
 
 // This responds a POST request for the homepage
 app.post('/divide', function (req, res) {
-    console.log("Got a POST request for the homepage");
-    res.send('Hello POST');
+    var result = CalcController.divide(parseInt(req.body.num1), parseInt(req.body.num2));
+    res.sendStatus(result);
 })
 
 // This responds a POST request for the homepage
 app.post('/compute', function (req, res) {
-    console.log("Got a POST request for the homepage");
-    res.send('Hello POST');
+    var result = CalcController.compute(parseInt(req.body.num1), parseInt(req.body.num2), req.body.operation);
+    res.sendStatus(result);
 })
 
 
