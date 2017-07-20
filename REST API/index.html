@@ -51,12 +51,45 @@
                     // Remove Image Clicked
                     .on('click', '.operation', function(){
                         CalcInterface.compute();
+                        CalcInterface.num2 = '';
                         CalcInterface.operation = $(this).attr('data-value');
+                        $('#result').text(CalcInterface.operation);
                     })
         },
 
         compute: function () {
-            
+            var endpointurl = "http://localhost:8081/";
+            var params = {
+                num1: CalcInterface.num1,
+                num2: CalcInterface.num2,
+                operation: CalcInterface.operation
+            };
+            switch(CalcInterface.operation) {
+                case '+':
+                case '-':
+                    endpointurl += 'add';
+                    break;
+                case '/':
+                    endpointurl += 'divide';
+                    break;
+                case 'x':
+                    endpointurl += 'multiply';
+                    break;
+                case '=':
+                    endpointurl += 'compute';
+                    return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: endpointurl,
+                data: params,
+                dataType: 'json',
+                success: function(result){
+                    CalcInterface.num1 = result
+                    $('#result').text(result);
+                }
+            });
         }
 
     };

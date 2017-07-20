@@ -27,7 +27,7 @@ CalcController.compute = function(num1, num2, operation) {
         case '/':
             result = CalcController.divide(num1, num2);
             break;
-        case '*':
+        case 'x':
             result = CalcController.multiply(num1, num2);
             break;
     }
